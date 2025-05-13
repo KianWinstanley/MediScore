@@ -16,9 +16,8 @@ class MediScore
         bool isOxygen, isFast, isTesting;
         string conscious, oxygen, test, fasting, loop;
         int oxygenSat, respRate, airScore, consciousScore, respScore, oxygenScore, tempScore, mediScore, oldScore, cbgScore, prevScore;
-        float cbg;
-        double temperature;
-        int[] results = new int[] { };
+        double temperature, cbg;
+        int[] results = { };
         var list = new List<int>();
 
         Console.WriteLine("Have you completed a Medi Score Test in the past 24 hours? [Y] for yes/[N] for no ");
@@ -153,6 +152,7 @@ class MediScore
 
             Console.WriteLine("What is your cbg to the nearest one decimal point in mmol/L? ");
             cbg = float.Parse(Console.ReadLine());
+            cbg = Math.Round(cbg, 1);
             if (isFast == true)
             {
                 if (cbg <= 3.4 || cbg >= 6.0)
@@ -190,7 +190,6 @@ class MediScore
             if (mediScore > (oldScore + 2))
             {
                 Console.WriteLine("Your Medi Score has raised more than 2 points in the past 24 hours");
-                Console.WriteLine("Your previous scores were " + results);
             }
             else if (mediScore == 17 && oldScore == 17)
             {
