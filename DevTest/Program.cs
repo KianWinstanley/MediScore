@@ -218,7 +218,7 @@ class MediScore
                 Console.WriteLine("All scores are ");
                 foreach (int i in results)
                 {
-                    Console.WriteLine(results[i]); //this says i has a value of 8 and can't print the array
+                    Console.WriteLine(i); 
                 }
             }
         }
