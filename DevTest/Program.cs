@@ -203,6 +203,7 @@ class MediScore
 
             prevScore = mediScore;
             list.Add(prevScore);
+            Array.Resize(ref results, results.Length + 1);
             results = list.ToArray();
 
             Console.WriteLine("Would you like to take the test again? [Y] for yes/[N] for no ");
