@@ -1,8 +1,14 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 class MediScore
 {
+    static int Calculation(int score1, int score2, int score3, int score4, int score5, int score6)
+    {
+        return score1 + score2 + score3 + score4 + score5 + score6;
+    }
     static void Main()
     {
         bool isOxygen, isFast;
@@ -168,7 +174,7 @@ class MediScore
         }
         
 
-        mediScore = airScore + consciousScore + respScore + oxygenScore + tempScore + cbgScore;
+        mediScore = Calculation(airScore, consciousScore, respScore, oxygenScore, tempScore, cbgScore);
         Console.WriteLine("Your Medi Score is " + mediScore);
         if (mediScore > (oldScore + 2)) {
             Console.WriteLine("Your Medi Score has raised more than 2 points in the past 24 hours");
