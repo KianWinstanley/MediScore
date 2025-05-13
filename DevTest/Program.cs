@@ -215,7 +215,7 @@ class MediScore
             else
             {
                 isTesting = false;
-                Console.WriteLine("All scores are ");
+                Console.WriteLine("All scores are: ");
                 foreach (int i in results)
                 {
                     Console.WriteLine(i); 
