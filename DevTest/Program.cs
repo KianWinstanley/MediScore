@@ -17,7 +17,7 @@ class MediScore
         string conscious, oxygen, test, fasting, loop;
         int oxygenSat, respRate, airScore, consciousScore, respScore, oxygenScore, tempScore, mediScore, oldScore, cbgScore, prevScore;
         double temperature, cbg;
-        int[] results = { };
+        int[] results = new int[] { };
         var list = new List<int>();
 
         Console.WriteLine("Have you completed a Medi Score Test in the past 24 hours? [Y] for yes/[N] for no ");
@@ -26,6 +26,7 @@ class MediScore
         {
             Console.WriteLine("Can you input your previous Medi Score ");
             oldScore = int.Parse(Console.ReadLine());
+            Array.Resize(ref results, results.Length + 1);
             list.Add(oldScore);
         }
         else
@@ -214,7 +215,11 @@ class MediScore
             else
             {
                 isTesting = false;
-                Console.WriteLine("All scores are " + results);
+                Console.WriteLine("All scores are ");
+                foreach (int i in results)
+                {
+                    Console.WriteLine(results[i]); //this says i has a value of 8 and can't print the array
+                }
             }
         }
         while (isTesting == true);
