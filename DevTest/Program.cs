@@ -3,6 +3,7 @@ using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 class MediScore
 {
@@ -13,7 +14,7 @@ class MediScore
 
     static void Main()
     {
-        bool isOxygen, isFast, isTesting;
+        bool isOxygen, isFast, isTesting, isMatch;
         string conscious, oxygen, test, fasting, loop, date;
         int oxygenSat, respRate, airScore, consciousScore, respScore, oxygenScore, tempScore, mediScore, oldScore, cbgScore, prevScore;
         double temperature, cbg;
@@ -31,7 +32,16 @@ class MediScore
             Console.WriteLine("Can you input the date and time of this test in the format DD/MM/YYYY HH:MM:SS ");
             date = Console.ReadLine();
             DateTime result;
-            DateTime.TryParse(date, out result);
+            isMatch = DateTime.TryParse(date, out result);
+            if (isMatch == false)
+            {
+                while (isMatch == false)
+                {
+                    Console.WriteLine("Please input in the correct format DD/MM/YYYY HH:MM:SS ");
+                    date = Console.ReadLine();
+                    isMatch = DateTime.TryParse(date, out result);
+                }
+            }
             DateTime currentDateTime = DateTime.Now;
             TimeSpan interval = TimeSpan.FromDays(1);
             if (currentDateTime.Subtract(interval) > result)
