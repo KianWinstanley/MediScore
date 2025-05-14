@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Diagnostics.Metrics;
 
 class MediScore
 {
@@ -16,7 +17,7 @@ class MediScore
     {
         bool isOxygen, isFast, isTesting, isMatch;
         string conscious, oxygen, test, fasting, loop, date;
-        int oxygenSat, respRate, airScore, consciousScore, respScore, oxygenScore, tempScore, mediScore, oldScore, cbgScore, prevScore;
+        int oxygenSat, respRate, airScore, consciousScore, respScore, oxygenScore, tempScore, mediScore, oldScore, cbgScore, prevScore, counter;
         double temperature, cbg;
         int[] results = new int[] { };
         DateTime[] dateTimes = new DateTime[] { };
@@ -218,19 +219,6 @@ class MediScore
 
             mediScore = Calculation(airScore, consciousScore, respScore, oxygenScore, tempScore, cbgScore);
             Console.WriteLine("Your Medi Score is " + mediScore);
-            if (mediScore > (oldScore + 2))
-            {
-                Console.WriteLine("Your Medi Score has raised more than 2 points in the past 24 hours");
-            }
-            else if (mediScore == 17 && oldScore == 17)
-            {
-                Console.WriteLine("Still on the maximum score");
-            }
-            else if (mediScore == oldScore)
-            {
-                Console.WriteLine("No change");
-            }
-
             prevScore = mediScore;
             DateTime currentDateTime = DateTime.Now;
             time.Add(currentDateTime);
@@ -239,6 +227,26 @@ class MediScore
             list.Add(prevScore);
             Array.Resize(ref results, results.Length + 1);
             results = list.ToArray();
+
+            int index = -1;
+            DateTime min = time.Min();
+            foreach (DateTime dt in time)
+            {
+                index++;
+                if (dt == min)
+                {
+                    break;
+                }
+            }
+            int max = results.Max();
+            if (mediScore > results[index])
+            {
+                Console.WriteLine("Your Medi Score has raised more than 2 points in the past 24 hours");
+            }
+            else if (mediScore == 17 && (max == 17))
+            {
+                Console.WriteLine("Still on the maximum score");
+            }
 
             Console.WriteLine("Would you like to take the test again? [Y] for yes/[N] for no ");
             loop = Console.ReadLine();
