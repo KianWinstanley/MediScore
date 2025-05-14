@@ -14,11 +14,13 @@ class MediScore
     static void Main()
     {
         bool isOxygen, isFast, isTesting;
-        string conscious, oxygen, test, fasting, loop;
+        string conscious, oxygen, test, fasting, loop, date;
         int oxygenSat, respRate, airScore, consciousScore, respScore, oxygenScore, tempScore, mediScore, oldScore, cbgScore, prevScore;
         double temperature, cbg;
         int[] results = new int[] { };
+        DateTime[] dateTimes = new DateTime[] { };
         var list = new List<int>();
+        var time = new List<DateTime>();
 
         Console.WriteLine("Have you completed a Medi Score Test in the past 24 hours? [Y] for yes/[N] for no ");
         test = Console.ReadLine();
@@ -26,8 +28,26 @@ class MediScore
         {
             Console.WriteLine("Can you input your previous Medi Score ");
             oldScore = int.Parse(Console.ReadLine());
-            Array.Resize(ref results, results.Length + 1);
-            list.Add(oldScore);
+            Console.WriteLine("Can you input the date and time of this test in the format DD/MM/YYYY HH:MM:SS ");
+            date = Console.ReadLine();
+            DateTime result;
+            DateTime.TryParse(date, out result);
+            DateTime currentDateTime = DateTime.Now;
+            TimeSpan interval = TimeSpan.FromDays(1);
+            if (currentDateTime.Subtract(interval) > result)
+            {
+                Console.WriteLine("The test was not within 24 hours,starting new test");
+            }
+            else
+            {
+                Array.Resize(ref results, results.Length + 1);
+                list.Add(oldScore);
+                time.Add(result);
+                Array.Resize(ref dateTimes, dateTimes.Length + 1);
+                dateTimes = time.ToArray();
+            }
+
+
         }
         else
         {
@@ -194,7 +214,7 @@ class MediScore
             }
             else if (mediScore == 17 && oldScore == 17)
             {
-                Console.WriteLine("Still on the maximum score, no change");
+                Console.WriteLine("Still on the maximum score");
             }
             else if (mediScore == oldScore)
             {
@@ -202,6 +222,10 @@ class MediScore
             }
 
             prevScore = mediScore;
+            DateTime currentDateTime = DateTime.Now;
+            time.Add(currentDateTime);
+            Array.Resize(ref dateTimes, dateTimes.Length + 1);
+            dateTimes = time.ToArray();
             list.Add(prevScore);
             Array.Resize(ref results, results.Length + 1);
             results = list.ToArray();
@@ -219,6 +243,10 @@ class MediScore
                 foreach (int i in results)
                 {
                     Console.WriteLine(i); 
+                }
+                foreach (DateTime i in time)
+                {
+                    Console.WriteLine(i);
                 }
             }
         }
