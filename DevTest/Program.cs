@@ -235,11 +235,14 @@ class MediScore
                 index++;
                 if (dt == min)
                 {
-                    break;
+                    TimeSpan interval = TimeSpan.FromDays(1);
+                    if (currentDateTime.Subtract(interval) < dt) {
+                        break;
+                    }
                 }
             }
             int max = results.Max();
-            if (mediScore > results[index])
+            if (mediScore > results[index]) 
             {
                 Console.WriteLine("Your Medi Score has raised more than 2 points in the past 24 hours");
             }
