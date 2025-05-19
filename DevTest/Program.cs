@@ -21,14 +21,7 @@ public class Calculations
 
     public static int ConsciousScore(string conscious)
     {
-        if (conscious == "Y")
-        {
-            return 3;
-        }
-        else
-        {
-            return 0;
-        }
+        return conscious == "Y" ? 3 : 0;
     }
 
     public static int RespirationScore(int respRate)
