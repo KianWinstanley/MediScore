@@ -145,7 +145,10 @@ public class Calculations
 }
 public class MediScore
 {
-
+    static bool Fasting(string fasting)
+    {
+        return fasting == "Y" ? false : true;
+    }
     static void Main()
     {
         bool isOxygen, isFast, isTesting, isMatch;
@@ -167,9 +170,9 @@ public class MediScore
             date = Console.ReadLine();
             DateTime result;
             isMatch = DateTime.TryParse(date, out result);
-            if (isMatch == false)
+            if (!isMatch)
             {
-                while (isMatch == false)
+                while (!isMatch)
                 {
                     Console.WriteLine("Please input in the correct format DD/MM/YYYY HH:MM:SS ");
                     date = Console.ReadLine();
@@ -230,14 +233,7 @@ public class MediScore
 
             Console.WriteLine("Have you eaten in the past 2 hours? [Y] for yes/[N] for no ");
             fasting = Console.ReadLine();
-            if (fasting == "Y")
-            {
-                isFast = false;
-            }
-            else
-            {
-                isFast = true;
-            }
+            isFast = Fasting(fasting);
 
             Console.WriteLine("What is your cbg to the nearest one decimal point in mmol/L? ");
             cbg = float.Parse(Console.ReadLine());
