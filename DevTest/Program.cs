@@ -23,13 +23,7 @@ public class Calculations
 
     public static bool SupplementOxygen(int airScore)
     {
-       if (airScore == 2) {
-            return true;
-       }
-       else
-       {
-            return false;
-       }
+        return airScore == 2 ? true : false;
     }
 
     public static int ConsciousScore(string conscious)
@@ -82,7 +76,7 @@ public class Calculations
             return 0;
         else
         {
-            if (isOxygen == true)
+            if (isOxygen)
             {
                 if (oxygenSat == 93 || oxygenSat == 94)
                 {
@@ -126,7 +120,7 @@ public class Calculations
 
     public static int CbgScore(bool isFast, double cbg)
     {
-        if (isFast == true)
+        if (isFast)
         {
             if (cbg <= 3.4 || cbg >= 6.0)
             {
