@@ -8,7 +8,7 @@ using System.Diagnostics.Metrics;
 
 public class Calculations
 {
-    public static int AirScore(string oxygen)
+    public static int AirScore(string oxygen) 
     {
         if (oxygen == "Y")
         {
@@ -157,19 +157,20 @@ public class Calculations
             }
         }
     }
+
+    public static int FinalScore(int score1, int score2)
+    {
+        return score1 += score2;
+    }
 }
 public class MediScore
 {
-    static int Calculation(int score1, int score2, int score3, int score4, int score5, int score6)
-    {
-        return score1 + score2 + score3 + score4 + score5 + score6;
-    }
 
     static void Main()
     {
         bool isOxygen, isFast, isTesting, isMatch;
         string conscious, oxygen, test, fasting, loop, date;
-        int oxygenSat, respRate, airScore, consciousScore, respScore, oxygenScore, tempScore, mediScore, oldScore, cbgScore, prevScore;
+        int oxygenSat, respRate, airScore, consciousScore, respScore, oxygenScore, tempScore, mediScore=0, oldScore, cbgScore, prevScore;
         double temperature, cbg;
         int[] results = new int[] { };
         DateTime[] dateTimes = new DateTime[] { };
@@ -224,23 +225,28 @@ public class MediScore
             oxygen = Console.ReadLine();
             airScore = Calculations.AirScore(oxygen);
             isOxygen = Calculations.SupplementOxygen(airScore);
+            mediScore = Calculations.FinalScore(mediScore, airScore);
 
             Console.WriteLine("Is the patient unconscious or in any confusion? [Y] for yes/[N] for no ");
             conscious = Console.ReadLine();
             consciousScore = Calculations.ConsciousScore(conscious);
+            mediScore = Calculations.FinalScore(mediScore, consciousScore);
 
             Console.WriteLine("What is the patient's respiration rate (per minute) to the nearest whole number? ");
             respRate = int.Parse(Console.ReadLine());
             respScore = Calculations.RespirationScore(respRate);
+            mediScore = Calculations.FinalScore(mediScore, respScore);
 
             Console.WriteLine("What is the patient's oxygen saturation, as a percantage, to the nearest whole number? ");
             oxygenSat = int.Parse(Console.ReadLine());
             oxygenScore = Calculations.OxygenSatScore(oxygenSat, isOxygen);
+            mediScore = Calculations.FinalScore(mediScore, oxygenScore);
 
             Console.WriteLine("What is the patients current temperature to the nearest single decimal point in degrees celsius? ");
             temperature = double.Parse(Console.ReadLine());
             temperature = Math.Round(temperature, 1);
             tempScore = Calculations.TemperatureScore(temperature);
+            mediScore = Calculations.FinalScore(mediScore, tempScore);
 
             Console.WriteLine("Have you eaten in the past 2 hours? [Y] for yes/[N] for no ");
             fasting = Console.ReadLine();
@@ -257,9 +263,8 @@ public class MediScore
             cbg = float.Parse(Console.ReadLine());
             cbg = Math.Round(cbg, 1);
             cbgScore = Calculations.CbgScore(isFast, cbg);
+            mediScore = Calculations.FinalScore(mediScore, cbgScore);
 
-
-            mediScore = Calculation(airScore, consciousScore, respScore, oxygenScore, tempScore, cbgScore);
             Console.WriteLine("Your Medi Score is " + mediScore);
             prevScore = mediScore;
             DateTime currentDateTime = DateTime.Now;
