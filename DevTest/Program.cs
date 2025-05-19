@@ -10,16 +10,9 @@ public class Calculations
 {
     public static int AirScore(string oxygen) 
     {
-        if (oxygen == "Y")
-        {
-            return 2;
-
-        }
-        else
-        {
-            return 0;
-        }
+        return oxygen == "Y" ? 2 : 0;
     }
+   
 
     public static bool SupplementOxygen(int airScore)
     {
