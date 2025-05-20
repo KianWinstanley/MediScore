@@ -37,41 +37,25 @@ public class Calculations
 
     public static int OxygenSatScore(int oxygenSat, bool isOxygen)
     {
-        if (oxygenSat <= 83)
+        if (isOxygen)
         {
-            return 3;
+            return oxygenSat switch
+            {
+                ((>= 93 and <= 94) or (>= 86 and <= 87)) => 1,
+                ((>= 95 and <= 96) or (>= 84 and <= 85)) => 2,
+                (>= 97 or <= 83) => 3,
+                _ => 0
+            };
         }
-        else if (oxygenSat == 84 || oxygenSat == 85)
-        {
-            return 2;
-        }
-        else if (oxygenSat == 86 || oxygenSat == 87)
-        {
-            return 1;
-        }
-        else if (oxygenSat >= 88 && oxygenSat <= 92)
-            return 0;
         else
         {
-            if (isOxygen)
+            return oxygenSat switch
             {
-                if (oxygenSat == 93 || oxygenSat == 94)
-                {
-                    return 1;
-                }
-                else if (oxygenSat == 95 || oxygenSat == 96)
-                {
-                    return 2;
-                }
-                else
-                {
-                    return 3;
-                }
-            }
-            else
-            {
-                return 0;
-            }
+                <= 83 => 3,
+                (>= 84 and <= 85) => 2,
+                (>= 86 and <= 87) => 1,
+                _ => 0
+            };
         }
     }
 
@@ -131,7 +115,7 @@ public class MediScore
         var time = new List<DateTime>();
 
         Console.WriteLine("Have you completed a Medi Score Test in the past 24 hours? [Y] for yes/[N] for no ");
-        test = Console.ReadLine();
+        test = Console.ReadLine().ToUpper();
         if (test == "Y")
         {
             Console.WriteLine("Can you input your previous Medi Score ");
@@ -177,13 +161,13 @@ public class MediScore
         {
             mediScore = 0;
             Console.WriteLine("Is the patient on supplementary oxygen? [Y] for yes/[N] for no ");
-            oxygen = Console.ReadLine();
+            oxygen = Console.ReadLine().ToUpper();
             airScore = Calculations.AirScore(oxygen);
             isOxygen = Calculations.SupplementOxygen(airScore);
             mediScore = Calculations.FinalScore(mediScore, airScore);
 
             Console.WriteLine("Is the patient unconscious or in any confusion? [Y] for yes/[N] for no ");
-            conscious = Console.ReadLine();
+            conscious = Console.ReadLine().ToUpper();
             consciousScore = Calculations.ConsciousScore(conscious);
             mediScore = Calculations.FinalScore(mediScore, consciousScore);
 
@@ -204,7 +188,7 @@ public class MediScore
             mediScore = Calculations.FinalScore(mediScore, tempScore);
 
             Console.WriteLine("Have you eaten in the past 2 hours? [Y] for yes/[N] for no ");
-            fasting = Console.ReadLine();
+            fasting = Console.ReadLine().ToUpper();
             isFast = Fasting(fasting);
 
             Console.WriteLine("What is your cbg to the nearest one decimal point in mmol/L? ");
@@ -247,7 +231,7 @@ public class MediScore
             }
 
             Console.WriteLine("Would you like to take the test again? [Y] for yes/[N] for no ");
-            loop = Console.ReadLine();
+            loop = Console.ReadLine().ToUpper();
             if (loop == "Y")
             {
                 isTesting = true;
