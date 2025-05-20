@@ -24,24 +24,15 @@ public class Calculations
         return conscious == "Y" ? 3 : 0;
     }
 
-    public static int RespirationScore(int respRate)
+    public static int RespirationScore(int respRate) 
     {
-        if (respRate <= 8 || respRate >= 25)
+        return respRate switch
         {
-            return 3;
-        }
-        else if (respRate >= 21 && respRate <= 24)
-        {
-            return 2;
-        }
-        else if (respRate >= 9 && respRate <= 11)
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
+            (<= 8 or >= 25) => 3,
+            (>= 21 and <=24) => 2,
+            (>= 9 and <= 11) => 1,
+            _ => 0
+        };
     }
 
     public static int OxygenSatScore(int oxygenSat, bool isOxygen)
@@ -86,55 +77,34 @@ public class Calculations
 
     public static int TemperatureScore(double temperature)
     {
-        if (temperature <= 35.0)
+        return temperature switch
         {
-            return 3;
-        }
-        else if (temperature >= 39.1)
-        {
-            return 2;
-        }
-        else if ((temperature >= 35.1 && temperature <= 36.0) || (temperature >= 38.1 && temperature <= 39.0))
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
+            <= 35.0 => 3,
+            >= 39.1 => 2,
+            ((>= 35.1 and <= 36.0) or (>= 38.1 and <= 39.0)) => 1,
+            _ => 0
+        };
     }
 
     public static int CbgScore(bool isFast, double cbg)
     {
         if (isFast)
         {
-            if (cbg <= 3.4 || cbg >= 6.0)
+            return cbg switch
             {
-                return 3;
-            }
-            else if ((cbg >= 3.5 && cbg <= 3.9) || (cbg >= 5.5 && cbg <= 5.9))
-            {
-                return 2;
-            }
-            else
-            {
-                return 0;
-            }
+                (<= 3.4 or >= 6.0) => 3,
+                ((>= 3.5 and <= 3.9) or (>= 5.5 and <= 5.9)) => 2,
+                _ => 0
+            };
         }
         else
         {
-            if (cbg <= 4.5 || cbg >= 9.0)
+            return cbg switch
             {
-                return 3;
-            }
-            else if ((cbg >= 4.5 && cbg <= 5.8) || (cbg >= 7.9 && cbg <= 8.9))
-            {
-                return 2;
-            }
-            else
-            {
-                return 0;
-            }
+                (<= 4.5 or >= 9.0) => 3,
+                ((>= 4.5 and <= 5.8) or (>= 7.9 and <= 8.9)) => 2,
+                _ => 0
+            };
         }
     }
 
@@ -189,6 +159,7 @@ public class MediScore
             {
                 Array.Resize(ref results, results.Length + 1);
                 list.Add(oldScore);
+                results = list.ToArray();
                 time.Add(result);
                 Array.Resize(ref dateTimes, dateTimes.Length + 1);
                 dateTimes = time.ToArray();
@@ -204,6 +175,7 @@ public class MediScore
         isTesting = true;
         do
         {
+            mediScore = 0;
             Console.WriteLine("Is the patient on supplementary oxygen? [Y] for yes/[N] for no ");
             oxygen = Console.ReadLine();
             airScore = Calculations.AirScore(oxygen);
